@@ -1,5 +1,5 @@
 <template>
-    <h2 class="pt-5">Stats</h2>
+    <h2 class="pt-5">Lists and stats</h2>
     <div class="flex align-items-center flex-wrap text-sm mb-6">
         <div class="mr-5 mt-3 cursor-pointer" @click="toggleReadingNow">
             <span class="font-medium text-500">Reading now</span>
