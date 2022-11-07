@@ -1303,12 +1303,12 @@
         "review": "",
         "genre": "",
         "medium": "Apple Books",
-        "amazon": "",
-        "apple": "",
+        "amazon": "https://amzn.to/3UsgQrz",
+        "apple": "https://apple.co/3FV9oR4",
         "kobo": "",
         "progress": "",
         "description": "",
-        "cover": ""
+        "cover": "https://m.media-amazon.com/images/I/51fcXbn-4uL.jpg"
     },
     {
         "title": "Writing Fight Scenes",
