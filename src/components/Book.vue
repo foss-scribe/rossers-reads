@@ -18,9 +18,10 @@
             on {{book.medium}}
         </div>
         
-        <div class="">
+        <Rating v-if="book.status == 'read' && book.rating" v-model="book.rating" :cancel="false" :readonly="true" />
+        <p v-if="book.status == 'currently-reading'">Progress: {{book.progress}}%</p>
+        
             
-        </div>
         <div class="inline-flex align-items-center">
                 <a class="mr-3" v-if="book.amazon" :href="book.amazon">
                     <i  class="pi pi-amazon"></i>
