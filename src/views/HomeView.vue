@@ -9,7 +9,7 @@ import TheBookList from "../components/TheBookList.vue";
             <img src="@/assets/logo.svg" class="mr-5 mb-3 lg:mb-0" style="width:90px;height:90px" />
             <div>
                 <span class="text-900 font-medium text-3xl">Rosser's Reads</span>
-                <p>Because reading lists aren't big data</p>    
+                <p><a href="https://chrisrosser.net/posts/2022/11/06/reading-lists-arent-big-data/" target="_blank">Because reading lists aren't big data!</a></p>    
             </div>
         </div>
         

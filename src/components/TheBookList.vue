@@ -48,7 +48,6 @@
                 <Book :book="book"/>
             </div>
         </div>
-        
     </div>
     
 </template>
