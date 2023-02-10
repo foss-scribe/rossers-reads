@@ -19,39 +19,43 @@
         </div>
     </div>
 
-    <h2 class="cursor-pointer" @click="toggleReadingNow">Reading now</h2>
-    <div v-if="showReadingList" class="flex flex-column">
-        <div v-for="book in readingList" class="flex shadow-2 surface-card border-round mr-0 xl:mr-4 mb-6 flex-row">
-            <Book :book="book"/>
-        </div>
-    </div>
+    <ProgressSpinner v-if="loading" />
 
-    <h2 class="cursor-pointer" @click="toggleWantToRead">Want to read</h2>
-    <div v-if="showToReadList" class="flex flex-column">
-        <div v-for="book in toReadList" class="flex shadow-2 surface-card border-round mr-0 xl:mr-4 mb-6 flex-row">
-            <Book :book="book"/>
+    <div v-if="!loading">
+        <h2 class="cursor-pointer" @click="toggleReadingNow">Reading now</h2>
+        <div v-if="showReadingList" class="flex flex-column">
+            <div v-for="book in readingList" class="flex shadow-2 surface-card border-round mr-0 xl:mr-4 mb-6 flex-row">
+                <Book :book="book"/>
+            </div>
         </div>
-    </div>
-
-    <h2 class="cursor-pointer" @click="toggleReadList">Read</h2>
-    <div v-if="showReadList" class="flex flex-column">
-        <div v-for="book in readList" class="flex shadow-2 surface-card border-round mr-0 xl:mr-4 mb-6 flex-row">
-            <Book :book="book"/>
+        <h2 class="cursor-pointer" @click="toggleWantToRead">Want to read</h2>
+        <div v-if="showToReadList" class="flex flex-column">
+            <div v-for="book in toReadList" class="flex shadow-2 surface-card border-round mr-0 xl:mr-4 mb-6 flex-row">
+                <Book :book="book"/>
+            </div>
         </div>
-    </div>
 
-    <h2 class="cursor-pointer" @click="toggleTopList">Top Rated</h2>
-    <div v-if="showTopList" class="flex flex-column">
-        <div v-for="book in topList" class="flex shadow-2 surface-card border-round mr-0 xl:mr-4 mb-6 flex-row">
-            <Book :book="book"/>
+        <h2 class="cursor-pointer" @click="toggleReadList">Read</h2>
+        <div v-if="showReadList" class="flex flex-column">
+            <div v-for="book in readList" class="flex shadow-2 surface-card border-round mr-0 xl:mr-4 mb-6 flex-row">
+                <Book :book="book"/>
+            </div>
         </div>
-    </div>
 
+        <h2 class="cursor-pointer" @click="toggleTopList">Top Rated</h2>
+        <div v-if="showTopList" class="flex flex-column">
+            <div v-for="book in topList" class="flex shadow-2 surface-card border-round mr-0 xl:mr-4 mb-6 flex-row">
+                <Book :book="book"/>
+            </div>
+        </div>
+        
+    </div>
+    
 </template>
 
 <script>
 
-import booklist from '../data/booklist.json';
+// import booklist from '../data/booklist.json';
 import Book from './Book.vue';
 
 export default {
@@ -59,7 +63,8 @@ export default {
     components: {Book},
     data() {
         return {
-            booklist,
+            loading: true,
+            booklist: [],
             readingList: [],
             readList: [],
             toReadList: [],
@@ -71,21 +76,10 @@ export default {
         }
     },
     mounted() {
-        if (this.booklist) {
-            this.booklist = this.sortListTitle(this.booklist)
-            this.readList = this.booklist.filter((item) => {
-                return item.status == 'read'
-            })
-            this.readingList = this.booklist.filter((item) => {
-                return item.status == 'currently-reading'
-            })
-            this.toReadList = this.booklist.filter((item) => {
-                return item.status == 'to-read'
-            })
-            this.topList = this.booklist.filter((item) => {
-                return item.rating == 5
-            })
-        }
+        this.getBookList();
+        // if (this.booklist) {
+        //     this.booklist = this.sortListTitle(this.booklist)
+        // }
         
     },
     methods: {
@@ -93,6 +87,30 @@ export default {
             return arr.slice().sort(function(a,b) {
                 return a.author_sort.localeCompare(b.author_sort) || a.title > b.title
             });
+        },
+        getBookList() {
+            // fetch('http://localhost:8000/books')
+            fetch('https://dg7mpj.deta.dev/books')
+            .then((response) => response.json())
+            .then((data) => {
+                this.booklist = this.sortListTitle(data._items);
+                
+                this.readList = this.booklist.filter((item) => {
+                    return item.status == 'read'
+                })
+                
+                this.readingList = this.booklist.filter((item) => {
+                    return item.status == 'currently-reading'
+                })
+                
+                this.toReadList = this.booklist.filter((item) => {
+                    return item.status == 'to-read'
+                })
+                this.topList = this.booklist.filter((item) => {
+                    return item.rating == 5
+                })
+                this.loading = false;
+            })
         },
         toggleWantToRead() {
             if (this.showToReadList == false) {
