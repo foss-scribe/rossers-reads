@@ -89,7 +89,7 @@ export default {
         },
         getBookList() {
             // fetch('http://localhost:8000/books')
-            fetch('https://dg7mpj.deta.dev/books')
+            fetch('https://booklistapi-1-n5184613.deta.app/books')
             .then((response) => response.json())
             .then((data) => {
                 this.booklist = this.sortListTitle(data._items);
